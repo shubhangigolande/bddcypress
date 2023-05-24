@@ -1,10 +1,12 @@
-import { Given, Then, When } from "cypress-cucumber-preprocessor/steps";
+import { Given, Then, When , And} from "cypress-cucumber-preprocessor/steps";
+
 
 Given('I open sauce demo Url',()=>{
     cy.visit('https://www.saucedemo.com/')
 })
 
-Then('Fill the Username',()=>{
+
+And('Fill the Username',()=>{
     cy.get('#user-name').type('standard_user')
 })
 
@@ -15,6 +17,27 @@ Then('Fill the password',()=>{
 Then('Click on login Button',()=>{
     cy.get('#login-button').click()
 })
-When('Validate sucessful login',()=>{
-    cy.get('.app_logo').should('have.text','Swag Labs')
+
+And('Validate sucessful login.',()=>{
+    cy.get('.header_secondary_container > span').should('be.visible').and('have.text','Products')
 })
+
+
+
+
+//invalid password
+Given('I open sauce demo Url.',()=>{
+    cy.visit('https://www.saucedemo.com/')
+})
+Then('Fill the Username.',()=>{
+    cy.get('#user-name').type('standard')
+})
+Then('Fill the password.',()=>{
+    cy.get('#password').type('secret')
+})
+When('Click on login Button.',()=>{
+    cy.get('#login-button').click()
+})
+ And('invalidate sucessful login.',()=>{
+cy.get('.error-message-container.error').should('contain','this service')
+ })
